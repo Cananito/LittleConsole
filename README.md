@@ -11,7 +11,23 @@ Comming soon.
 
 ## Usage
 
-Coming soon.
+To bring it up:
+
+```swift
+LittleConsole.show()
+```
+
+To remove it:
+
+```swift
+LittleConsole.disappear()
+```
+
+To log a message:
+
+```swift
+LittleConsole.log("A message!")
+```
 
 ## To-dos
 
