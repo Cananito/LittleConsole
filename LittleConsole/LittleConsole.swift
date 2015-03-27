@@ -123,6 +123,8 @@ private class LittleConsoleView: UIView {
     private func setup() {
         self.layer.borderColor = UIColor.blackColor().CGColor
         self.layer.borderWidth = 1.0
+        self.backgroundColor = UIColor.whiteColor()
+        
         self.setupScrollView()
         self.setupTextLabel()
         self.setupToggleFullScreenButton()
