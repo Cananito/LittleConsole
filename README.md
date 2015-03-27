@@ -15,4 +15,4 @@ Coming soon.
 
 ## To-dos
 
-Please refer to issues marked as [enhancement](https://github.com/Cananito/LittleConsole/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
+Please refer to issues marked as [enhancement](https://github.com/Cananito/LittleConsole/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement).
