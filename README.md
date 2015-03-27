@@ -3,7 +3,7 @@
 
 iOS framework library to embed a graphical logging console in the app.
 
-![](https://raw.githubusercontent.com/Cananito/LittleConsole/master/Screenshots/CustomSize.png)
+<img src="https://raw.githubusercontent.com/Cananito/LittleConsole/master/Screenshots/CustomSize.png" width="50%" height="50%">
 
 ## Installation
 
