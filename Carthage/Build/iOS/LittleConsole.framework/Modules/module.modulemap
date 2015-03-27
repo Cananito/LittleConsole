@@ -1,0 +1,10 @@
+framework module LittleConsole {
+  umbrella header "LittleConsole.h"
+
+  export *
+  module * { export * }
+}
+
+module LittleConsole.Swift {
+    header "LittleConsole-Swift.h"
+}
