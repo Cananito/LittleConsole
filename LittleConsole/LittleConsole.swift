@@ -29,6 +29,13 @@ public class LittleConsole {
         self.sharedInstance.view.removeFromSuperview()
     }
     
+    public class func isShowing() -> Bool {
+        if let superview = self.sharedInstance.view.superview {
+            return true
+        }
+        return false
+    }
+    
     public class func setSize(size: CGSize) {
         self.sharedInstance.view.size = size
     }
