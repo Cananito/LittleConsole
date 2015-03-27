@@ -1,6 +1,8 @@
 
 # LittleConsole
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 iOS framework library to embed a graphical logging console in the app.
 
 <img src="https://raw.githubusercontent.com/Cananito/LittleConsole/master/Screenshots/CustomSize.png" width="50%" height="50%">
