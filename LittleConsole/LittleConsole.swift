@@ -37,9 +37,12 @@ public class LittleConsole {
         self.sharedInstance.view.backgroundColor = backgroundColor
     }
     
+    public class func setTextColor(textColor: UIColor) {
+        self.sharedInstance.view.textLabel.textColor = textColor
+    }
+    
     public class func setTextSize(textSize: Float) {
-        let font = UIFont.systemFontOfSize(CGFloat(textSize))
-        self.sharedInstance.view.textLabel.font = font
+        self.sharedInstance.view.textLabel.font = UIFont.systemFontOfSize(CGFloat(textSize))
     }
     
     // TODO: Use class variable in Swift 1.2
@@ -118,6 +121,8 @@ private class LittleConsoleView: UIView {
     }
     
     private func setup() {
+        self.layer.borderColor = UIColor.blackColor().CGColor
+        self.layer.borderWidth = 1.0
         self.setupScrollView()
         self.setupTextLabel()
         self.setupToggleFullScreenButton()
@@ -134,6 +139,7 @@ private class LittleConsoleView: UIView {
     
     private func setupTextLabel() {
         self.textLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.textLabel.font = UIFont.systemFontOfSize(CGFloat(14.0))
         self.textLabel.numberOfLines = 0
         self.textLabel.userInteractionEnabled = true
         self.scrollView.addSubview(self.textLabel)
@@ -144,7 +150,7 @@ private class LittleConsoleView: UIView {
         self.toggleFullScreenButton.setTitle("F", forState: .Normal)
         self.toggleFullScreenButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         self.toggleFullScreenButton.setTitleColor(UIColor.whiteColor(), forState: .Selected)
-        self.toggleFullScreenButton.setBackgroundImage(nil, forState: .Normal)
+        self.toggleFullScreenButton.setBackgroundImage(UIColor.whiteColor().image(), forState: .Normal)
         self.toggleFullScreenButton.setBackgroundImage(UIColor.blackColor().image(), forState: .Selected)
         self.toggleFullScreenButton.layer.borderColor = UIColor.blackColor().CGColor
         self.toggleFullScreenButton.layer.borderWidth = 1.0

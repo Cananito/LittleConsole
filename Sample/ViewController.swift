@@ -15,9 +15,6 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        LittleConsole.setBackgroundColor(UIColor.greenColor())
-        LittleConsole.setTextSize(14.0)
         LittleConsole.show()
     }
     
