@@ -82,8 +82,8 @@ private class LittleConsoleView: UIView {
         return Static.dateFormatter
     }
     
-    override init() {
-        super.init()
+    init() {
+        super.init(frame: CGRectZero)
         self.setup()
     }
     
