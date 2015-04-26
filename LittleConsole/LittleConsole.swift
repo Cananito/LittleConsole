@@ -52,13 +52,7 @@ public class LittleConsole {
         self.sharedInstance.view.textLabel.font = UIFont.systemFontOfSize(CGFloat(textSize))
     }
     
-    // TODO: Use class variable in Swift 1.2
-    private class var sharedInstance: LittleConsole {
-        struct Static {
-            static let instance = LittleConsole()
-        }
-        return Static.instance
-    }
+    private static var sharedInstance = LittleConsole()
     
     private let view = LittleConsoleView(frame: CGRect(x: 0.0, y: 20.0, width: 150.0, height: 150.0))
 }
@@ -73,14 +67,11 @@ private class LittleConsoleView: UIView {
     private let toggleFullScreenButton = UIButton()
     private let scrollView = UIScrollView()
     private let textLabel = UILabel()
-    
-    // TODO: Use class variable in Swift 1.2
-    private class var dateFormatter: NSDateFormatter {
-        struct Static {
-            static let dateFormatter = NSDateFormatter()
-        }
-        return Static.dateFormatter
-    }
+    private static var dateFormatter: NSDateFormatter = {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm:ss a"
+        return dateFormatter
+    }()
     
     init() {
         super.init(frame: CGRectZero)
@@ -136,8 +127,6 @@ private class LittleConsoleView: UIView {
         self.setupTextLabel()
         self.setupToggleFullScreenButton()
         self.setupConstraints()
-        
-        self.setupDateFormatter()
     }
     
     private func setupScrollView() {
@@ -182,10 +171,6 @@ private class LittleConsoleView: UIView {
         self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.scrollView, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
         self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Leading, relatedBy: .Equal, toItem: self.toggleFullScreenButton, attribute: .Trailing, multiplier: 1.0, constant: 2.0))
         self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0))
-    }
-    
-    private func setupDateFormatter() {
-        LittleConsoleView.dateFormatter.dateFormat = "hh:mm:ss a"
     }
     
     private func updateFrameToCurrentSize() {
