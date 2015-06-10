@@ -17,7 +17,7 @@ public class LittleConsole {
         if let window = UIApplication.sharedApplication().keyWindow {
             self.showInWindow(window)
         } else {
-            println("UIApplication's keyWindow still hasn't been created.")
+            print("UIApplication's keyWindow still hasn't been created.")
         }
     }
     
@@ -30,7 +30,7 @@ public class LittleConsole {
     }
     
     public class func isShowing() -> Bool {
-        if let superview = self.sharedInstance.view.superview {
+        if let _ = self.sharedInstance.view.superview {
             return true
         }
         return false
@@ -139,13 +139,13 @@ private class LittleConsoleView: UIView {
     }
     
     private func setupScrollView() {
-        self.scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.scrollView.backgroundColor = UIColor.clearColor()
         self.addSubview(self.scrollView)
     }
     
     private func setupTextLabel() {
-        self.textLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.textLabel.translatesAutoresizingMaskIntoConstraints = false
         self.textLabel.font = UIFont.systemFontOfSize(CGFloat(14.0))
         self.textLabel.numberOfLines = 0
         self.textLabel.userInteractionEnabled = true
@@ -163,7 +163,7 @@ private class LittleConsoleView: UIView {
     }
     
     private func setupButton(button: UIButton, title: String, selectorString: String) {
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
