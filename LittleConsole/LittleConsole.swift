@@ -85,7 +85,7 @@ private class LittleConsoleView: UIView {
         self.size = frame.size
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
         self.size = self.bounds.size
