@@ -183,7 +183,7 @@ private class LittleConsoleView: UIView {
         self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
         
         self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Trailing, relatedBy: .Equal, toItem: self.toggleFullScreenButton, attribute: .Left, multiplier: 1.0, constant: -8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Trailing, relatedBy: .Equal, toItem: self.toggleFullScreenButton, attribute: .Leading, multiplier: 1.0, constant: -8.0))
         self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
         self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
         
