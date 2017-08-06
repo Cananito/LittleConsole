@@ -14,14 +14,14 @@ public class LittleConsole {
     }
     
     public class func show() {
-        if let window = UIApplication.sharedApplication().keyWindow {
+        if let window = UIApplication.shared.keyWindow {
             self.showInWindow(window)
         } else {
             print("UIApplication's keyWindow still hasn't been created.")
         }
     }
     
-    public class func showInWindow(window: UIWindow) {
+    public class func showInWindow(_ window: UIWindow) {
         window.addSubview(self.sharedInstance.view)
     }
     
@@ -36,20 +36,20 @@ public class LittleConsole {
         return false
     }
     
-    public class func setSize(size: CGSize) {
+    public class func setSize(_ size: CGSize) {
         self.sharedInstance.view.size = size
     }
     
-    public class func setBackgroundColor(backgroundColor: UIColor) {
+    public class func setBackgroundColor(_ backgroundColor: UIColor) {
         self.sharedInstance.view.backgroundColor = backgroundColor
     }
     
-    public class func setTextColor(textColor: UIColor) {
+    public class func setTextColor(_ textColor: UIColor) {
         self.sharedInstance.view.textLabel.textColor = textColor
     }
     
-    public class func setTextSize(textSize: Float) {
-        self.sharedInstance.view.textLabel.font = UIFont.systemFontOfSize(CGFloat(textSize))
+    public class func setTextSize(_ textSize: Float) {
+        self.sharedInstance.view.textLabel.font = UIFont.systemFont(ofSize: CGFloat(textSize))
     }
     
     private static var sharedInstance = LittleConsole()
@@ -57,25 +57,25 @@ public class LittleConsole {
     private let view = LittleConsoleView(frame: CGRect(x: 0.0, y: 20.0, width: 200.0, height: 150.0))
 }
 
-private class LittleConsoleView: UIView {
+fileprivate class LittleConsoleView: UIView {
     var size: CGSize = CGSize() {
         didSet {
             self.updateFrameToCurrentSize()
         }
     }
     
+    fileprivate let textLabel = UILabel()
     private let toggleFullScreenButton = UIButton()
     private let clearConsoleButton = UIButton()
     private let scrollView = UIScrollView()
-    private let textLabel = UILabel()
-    private static var dateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
+    private static var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm:ss a"
         return dateFormatter
     }()
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.setup()
     }
     
@@ -91,10 +91,10 @@ private class LittleConsoleView: UIView {
         self.size = self.bounds.size
     }
     
-    func log(message: String) {
+    func log(_ message: String) {
         let shouldScrollToBottom = self.scrollViewIsAtBottom()
         
-        let dateString = LittleConsoleView.dateFormatter.stringFromDate(NSDate())
+        let dateString = LittleConsoleView.dateFormatter.string(from: Date())
         if self.textLabel.text == nil || self.textLabel.text?.isEmpty == true {
             self.textLabel.text = "[\(dateString)]: \(message)"
         } else {
@@ -104,32 +104,32 @@ private class LittleConsoleView: UIView {
         self.scrollView.contentSize = self.textLabel.bounds.size
         
         if shouldScrollToBottom == true {
-            let y = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds)
+            let y = self.scrollView.contentSize.height - self.scrollView.bounds.height
             let newOffset = CGPoint(x: 0.0, y: y)
             self.scrollView.contentOffset = newOffset
         }
     }
     
-    @objc private func toggleFullScreen(sender: UIButton) {
-        sender.selected = !sender.selected
-        if sender.selected == true {
+    @objc private func toggleFullScreen(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected == true {
             self.updateFrameToFullScreen()
         } else {
             self.updateFrameToCurrentSize()
         }
     }
     
-    @objc private func clearConsole(sender: UIButton) {
+    @objc private func clearConsole(_ sender: UIButton) {
         self.textLabel.text = ""
         self.textLabel.sizeToFit()
         self.scrollView.contentSize = self.textLabel.bounds.size
-        self.scrollView.contentOffset = CGPointZero
+        self.scrollView.contentOffset = CGPoint.zero
     }
     
     private func setup() {
-        self.layer.borderColor = UIColor.blackColor().CGColor
+        self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 1.0
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
         self.setupScrollView()
         self.setupTextLabel()
@@ -140,15 +140,15 @@ private class LittleConsoleView: UIView {
     
     private func setupScrollView() {
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollView.backgroundColor = UIColor.clearColor()
+        self.scrollView.backgroundColor = UIColor.clear
         self.addSubview(self.scrollView)
     }
     
     private func setupTextLabel() {
         self.textLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.textLabel.font = UIFont.systemFontOfSize(CGFloat(14.0))
+        self.textLabel.font = UIFont.systemFont(ofSize: CGFloat(14.0))
         self.textLabel.numberOfLines = 0
-        self.textLabel.userInteractionEnabled = true
+        self.textLabel.isUserInteractionEnabled = true
         self.scrollView.addSubview(self.textLabel)
     }
     
@@ -162,44 +162,44 @@ private class LittleConsoleView: UIView {
         self.addSubview(self.clearConsoleButton)
     }
     
-    private func setupButton(button: UIButton, title: String, selectorString: String) {
+    private func setupButton(_ button: UIButton, title: String, selectorString: String) {
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(title, forState: .Normal)
-        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
-        button.setBackgroundImage(UIColor.whiteColor().image(), forState: .Normal)
-        button.setBackgroundImage(UIColor.blackColor().image(), forState: .Selected)
-        button.setBackgroundImage(UIColor.blackColor().image(), forState: .Highlighted)
-        button.layer.borderColor = UIColor.blackColor().CGColor
+        button.setTitle(title, for: UIControlState())
+        button.setTitleColor(UIColor.black, for: UIControlState())
+        button.setTitleColor(UIColor.white, for: .selected)
+        button.setTitleColor(UIColor.white, for: .highlighted)
+        button.setBackgroundImage(UIColor.white.image(), for: UIControlState())
+        button.setBackgroundImage(UIColor.black.image(), for: .selected)
+        button.setBackgroundImage(UIColor.black.image(), for: .highlighted)
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1.0
-        button.addTarget(self, action: Selector(selectorString), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: Selector(selectorString), for: .touchUpInside)
     }
     
     private func setupConstraints() {
-        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
-        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
+        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 32.0))
+        self.addConstraint(NSLayoutConstraint(item: self.toggleFullScreenButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 32.0))
         
-        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Trailing, relatedBy: .Equal, toItem: self.toggleFullScreenButton, attribute: .Leading, multiplier: 1.0, constant: -8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
-        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32.0))
+        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .trailing, relatedBy: .equal, toItem: self.toggleFullScreenButton, attribute: .leading, multiplier: 1.0, constant: -8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 32.0))
+        self.addConstraint(NSLayoutConstraint(item: self.clearConsoleButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 32.0))
         
-        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: self.toggleFullScreenButton, attribute: .Top, multiplier: 1.0, constant: -2.0))
-        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 8.0))
-        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .bottom, relatedBy: .equal, toItem: self.toggleFullScreenButton, attribute: .top, multiplier: 1.0, constant: -2.0))
+        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 8.0))
+        self.addConstraint(NSLayoutConstraint(item: self.scrollView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0))
         
-        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Top, relatedBy: .Equal, toItem: self.scrollView, attribute: .Top, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.scrollView, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Leading, relatedBy: .Equal, toItem: self.scrollView, attribute: .Leading, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .top, relatedBy: .equal, toItem: self.scrollView, attribute: .top, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .bottom, relatedBy: .equal, toItem: self.scrollView, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .leading, relatedBy: .equal, toItem: self.scrollView, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: self.textLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0))
     }
     
     private func updateFrameToCurrentSize() {
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             var frame = self.frame
             frame.size = self.size
             self.frame = frame
@@ -207,9 +207,9 @@ private class LittleConsoleView: UIView {
     }
     
     private func updateFrameToFullScreen() {
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             var frame = self.frame
-            frame.size = UIScreen.mainScreen().bounds.size
+            frame.size = UIScreen.main.bounds.size
             frame.size.height -= 20.0
             self.frame = frame
         })
@@ -217,7 +217,7 @@ private class LittleConsoleView: UIView {
     
     private func scrollViewIsAtBottom() -> Bool {
         let contentSizeHeight = self.scrollView.contentSize.height
-        let scrollViewHeight = CGRectGetHeight(self.scrollView.bounds)
+        let scrollViewHeight = self.scrollView.bounds.height
         
         if contentSizeHeight <= scrollViewHeight {
             return true
@@ -237,11 +237,11 @@ extension UIColor {
         
         UIGraphicsBeginImageContext(frame.size)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, self.CGColor)
-        CGContextFillRect(context, frame)
+        context?.setFillColor(self.cgColor)
+        context?.fill(frame)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return image
+        return image!
     }
 }
